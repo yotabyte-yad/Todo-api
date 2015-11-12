@@ -55,7 +55,8 @@ app.get('/todos/:id', function(req, res){
 //POST /todos
 app.post('/todos', function(req, res){
 	var body = _.pick(req.body, 'description', 'completed');
-
+	body.description = body.description.trim();
+	
 	db.todo.create(body).then(function(todo){
 		res.json(todo.toJSON());
 	}, function(e){
