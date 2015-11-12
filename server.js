@@ -4,11 +4,11 @@ var PORT = process.env.PORT || 3000;
 
 var todos = [{
 		id: 1,
-		description: 'Meet mom for lunch',
+		description: 'Meet Ben for Dinner',
 		completed: false
 	},{
 		id: 2,
-		description: 'Go to Market',
+		description: 'Go to Fish Market',
 		completed: false
 	},{
 		id: 3,
