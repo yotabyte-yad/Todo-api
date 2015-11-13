@@ -67,35 +67,26 @@ app.post('/todos', function(req, res){
 		console.log(e);
 	});
 
-	// if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0){
-
-	// 	return res.status(400).send('Invalid User Input');
-
-	// }
-
-	// body.description = body.description.trim();
-	// body.id = todoNextId;
-	// todoNextId++;
-
-	// //push body into array
-	// todos.push(body);
-
-	// res.json(body);
-
 });
 
 //DELETE /todos/:id
 
 app.delete('/todos/:id', function(req, res){
 	var todoId = parseInt(req.params.id);
-	var matchedTodo = _.findWhere(todos, {id: todoId});
 
-	if(!matchedTodo){
-		res.status(404).json({"error" : "No item found with that ID"});
-	} else {
-		todos = _.without(todos,matchedTodo);
-		res.json(matchedTodo);
-	}
+	db.todo.destroy({
+		where: {
+			id: todoId
+		}
+	}).then (function(rowsDeleted){
+		if(rowsDeleted == 0){
+			res.status(404).json({"error" : "No item found with that ID"});
+		} else {
+			res.status(204).send('Item Deleted Successfully');
+		}
+	}, function(e){
+		res.status(500).json({"error" : "Deleting Item"});
+	});
 });
 
 // PUT /todos/:id
