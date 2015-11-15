@@ -140,7 +140,7 @@ app.post('/users', function(req, res){
 	console.log(body);
 	
 	db.user.create(body).then(function(todo){
-		res.json(todo.toJSON());
+		res.json(todo.toPublicJSON());
 	}, function(e){
 		res.status(400).json(e);
 		console.log('Error creating user: ' + e);
@@ -153,7 +153,7 @@ app.post('/users', function(req, res){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-db.sequelize.sync().then(function(){
+db.sequelize.sync({force: false}).then(function(){
 		app.listen (PORT, function(){
 		console.log('Express listening on port: ' + PORT);
 	});
