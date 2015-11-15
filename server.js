@@ -148,7 +148,36 @@ app.post('/users', function(req, res){
 
 });
 
+//POST method to allow users to log into application
+// /users/Login
 
+app.post('/users/login', function(req, res){
+	var body = _.pick(req.body, 'email', 'password');
+
+	if(typeof body.email !== 'string' || typeof body.password !== 'string') {
+		return res.status(400).send();
+	}
+
+	db.user.findOne({
+		where: {
+			email: body.email
+		}
+	}).then (function (user){
+		if(!user){
+			return res.status(401).send();
+		}
+		res.json(user.toJSON());
+
+	}, function (e){
+		res.status(404).send('User with the email not found');
+	});
+
+
+	//res.json(body);
+
+
+
+});
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
