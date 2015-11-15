@@ -58,8 +58,11 @@ app.get('/todos/:id', function(req, res){
 //POST /todos
 app.post('/todos', function(req, res){
 	var body = _.pick(req.body, 'description', 'completed');
+	
 	body.description = body.description.trim();
+
 	console.log(body);
+
 	db.todo.create(body).then(function(todo){
 		res.json(todo.toJSON());
 	}, function(e){
@@ -124,6 +127,31 @@ app.put ('/todos/:id', function(req, res){
 	});
 
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//POST /users - Create a user
+app.post('/users', function(req, res){
+	var body = _.pick(req.body, 'email', 'password');
+	
+	body.email = body.email.trim();
+	body.password = body.password.trim();
+
+	console.log(body);
+	
+	db.user.create(body).then(function(todo){
+		res.json(todo.toJSON());
+	}, function(e){
+		res.status(400).json(e);
+		console.log('Error creating user: ' + e);
+	});
+
+});
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 db.sequelize.sync().then(function(){
 		app.listen (PORT, function(){
